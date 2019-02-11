@@ -22,58 +22,46 @@ fun main(args: Array<String>) {
  */
 fun sort(A: IntArray, p: Int, r: Int){
     if(p<r){
-        //считаем текущий элемент
         var q = ((p+r)/2)
 
-        //искомая функция
-        println("[merg]: $p , $q , $r")
         q = merge(A,p,q,r)
 
-        //сортировка до элемента q
-        print("[srt$q]: [ ")
-        var i=p
-        while (i<=q)
-            print("${A[i++]} ")
-        println("]")
         sort(A,p,q)
-
-        //сортировка после элемента q
-        print("[srt$r]: [ ")
-        i=q+1
-        while (i<=r)
-            print("${A[i++]} ")
-        println("]")
         sort(A,q+1,r)
     }
 }
 
-fun merge(intArray: IntArray, p: Int, pivot: Int, r: Int): Int{
+fun merge(A: IntArray, p: Int, pivot: Int, r: Int): Int{
     var start=p
     var end=r
     var q = pivot
 
     while (start < end) {
-        while (start < q && intArray[start] <= intArray[q]) {
+        //находим близжайший элемент с начала массива,
+        //который будет больше нашего опорного элемента
+        while (start < q && A[start] <= A[q]) {
             start++
         }
-        while (end > q && intArray[q] <= intArray[end]) {
+        //находимо близжайший с конца элемент,
+        //который будет меньше нашего опорного элемента
+        while (end > q && A[q] <= A[end]) {
             end--
         }
+        //если в процессе прохода по массиву значения start и end не сошлись в середине
+        //меняем местами элементы под текущими позициями
         if (start < end) {
-            val temp = intArray[start]
-            intArray[start] = intArray[end]
-            intArray[end] = temp
-            print("[step]: [ ")
-            intArray.forEach{print("$it ")}
-            println("]")
+            val temp = A[start]
+            A[start] = A[end]
+            A[end] = temp
             when {
+                //в случае если справа или слева мы дошли до позиции опорного элемента
+                //значит кол-во элементов не равно по обеим сторонам
+                //и следует отодвинуть позицию опорного элемента
                 start == q -> {
                     q = end
-                    println("[cur ]: $q")
                 }
                 end == q -> {
                     q = start
-                    println("[cur ]: $q")
                 }
             }
         }
