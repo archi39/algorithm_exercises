@@ -4,13 +4,14 @@
 class GrokaemAlgoritmi{
     init {
         //Пример массива для алгоритма сортировки
-        var intArrayTest = intArrayOf(5,2,4,6,1,3,2,6)
+        val intArrayTest = intArrayOf(5,2,4,6,1,3,2,6)
         print("[init]: [ ")
         intArrayTest.forEach{print("$it ")}
         println("]")
 
         //запуск
-        sort(intArrayTest,0,intArrayTest.size-1)
+        //quickSort(intArrayTest,0,intArrayTest.size-1)
+        selectSort(intArrayTest)
 
         //вывод отсортированного массива
         print("[fin ]: [ ")
@@ -21,14 +22,14 @@ class GrokaemAlgoritmi{
     /**
      * Функция быстрой сортировки массива элементов A
      */
-    fun sort(array: IntArray, p: Int, r: Int){
+    fun quickSort(array: IntArray, p: Int, r: Int){
         if(p<r){
             var q = ((p+r)/2)
 
             q = merge(array,p,q,r)
 
-            sort(array,p,q)
-            sort(array,q+1,r)
+            quickSort(array,p,q)
+            quickSort(array,q+1,r)
         }
     }
 
@@ -71,5 +72,25 @@ class GrokaemAlgoritmi{
             }
         }
         return current
+    }
+
+    fun selectSort(array: IntArray){
+        var left=0
+        while(left< array.size){
+            var minIndex = left
+            var right=left+1
+            while (right< array.size){
+                if (array[right] < array[minIndex]) {
+                    minIndex = right
+                }
+                right++
+            }
+            if (minIndex != left) {
+                val temp = array[left]
+                array[left] = array[minIndex]
+                array[minIndex] = temp
+            }
+            left++
+        }
     }
 }
